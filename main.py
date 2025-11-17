@@ -1,5 +1,5 @@
 from stats import get_num_words, get_character_count, sort_characters
-
+import sys
 def get_book_text(path_to_file):
     file_contents = ""
     with open(path_to_file) as f:
@@ -11,9 +11,15 @@ def print_character_counts(characters):
         print(f"'{chars["char"]}: {chars["count"]}'")  
 
 def main():
-    #store the name of the book, maybe we want to get user input later
-    book_name = "frankenstein.txt"
-    book_text = get_book_text(f"books/{book_name}")
+    # if system argv is too short or empty, 
+    # exit and show how to use the script
+    if(len(sys.argv) < 2):
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+
+    book_path = sys.argv[1]
+    book_text = get_book_text(book_path)
+
     num_words = get_num_words(book_text)
 
     total_characters = get_character_count(book_text) 
@@ -21,7 +27,7 @@ def main():
     sorted_characters = sort_characters(total_characters)
 
     print(f"============ BOOKBOT ============")
-    print(f"Analyzing book found at books/{book_name}...")
+    print(f"Analyzing book found at {book_path}...")
     print(f"----------- Word Count ----------")
     print(f"Found {num_words} total words")
     print(f"----------- Character Count ----------")
